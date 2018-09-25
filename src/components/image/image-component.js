@@ -1,4 +1,4 @@
-import bigImage from '../../../assets/imagen-grande.jpg';
+import bigImage from 'assets/imagen-grande.jpg';
 
 export const makeImage = () => {
     const image = document.createElement('img');

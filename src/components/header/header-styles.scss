@@ -6,6 +6,9 @@ header {
     justify-content: center;
     .title {
         color: white;
+        &:hover {
+            color: lighten(red, 20)
+        }
     }
     .logo {
         padding-left: 5px;
