@@ -1,1 +1,6 @@
-@import 'normalize.scss'
+//@import 'normalize.scss'
+@import '~styles/utils';
+@import '~styles/settings';
+h1 {
+    @include fontSize($font-size-xxxl);
+}
