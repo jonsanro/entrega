@@ -1,4 +1,5 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: path.join(__dirname, 'src', 'index'),
@@ -13,5 +14,12 @@ module.exports = {
         open: true,
         overlay: true,
         port: 3000
-    }
+    },
+    plugins: [new HtmlWebpackPlugin({
+        title: "Poker",
+        template: "src/index.html",
+        minify: {
+            collapseWhitespace: true
+        }
+    })]
 };
