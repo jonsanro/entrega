@@ -1,7 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+var merge = require('webpack-merge');
 
-module.exports = {
+var commonConfig = {
     entry: path.join(__dirname, 'src', 'index'),
     output: {
 
@@ -10,14 +11,7 @@ module.exports = {
         path: path.resolve(__dirname, 'dist')
     },
 
-    devServer: {
-        open: true,
-        overlay: true,
-        port: 3000,
-        hot: true,
-        contentBase: path.join(__dirname, 'src'),
-        watchContentBase: true
-    },
+
     plugins: [new HtmlWebpackPlugin({
         title: "Poker",
         template: "src/index.html",
@@ -43,3 +37,25 @@ module.exports = {
         ]
     }
 };
+
+
+var devConfig = {
+    devServer: {
+        open: true,
+        overlay: true,
+        port: 3000,
+        hot: true,
+        contentBase: path.join(__dirname, 'src'),
+        watchContentBase: true
+    }
+};
+
+var prodConfig = {
+
+};
+
+
+module.exports = (env, argv) =>
+    argv.mode === 'development' ?
+    merge(commonConfig, devConfig) :
+    merge(commonConfig, prodConfig);
