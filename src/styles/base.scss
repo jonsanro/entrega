@@ -3,4 +3,10 @@
 @import '~styles/settings';
 h1 {
     @include fontSize($font-size-xxxl);
+    font-family: $font-family-main;
+}
+
+p,
+div {
+    font-family: $font-family;
 }
