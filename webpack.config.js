@@ -2,6 +2,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 var merge = require('webpack-merge');
+const webpack = require('webpack');
 
 var commonConfig = {
     entry: path.join(__dirname, 'src', 'index'),
@@ -14,12 +15,14 @@ var commonConfig = {
 
 
     plugins: [new HtmlWebpackPlugin({
-        title: "Poker",
-        template: "src/index.html",
-        minify: {
-            collapseWhitespace: true
-        }
-    })],
+            title: "Poker",
+            template: "src/index.html",
+            minify: {
+                collapseWhitespace: true
+            }
+        }),
+        new webpack.HotModuleReplacementPlugin()
+    ],
     module: {
 
         rules: [{
@@ -34,6 +37,15 @@ var commonConfig = {
             {
                 test: /\.scss$/,
                 use: ['style-loader', 'css-loader', 'sass-loader']
+            },
+            {
+                test: /\.(jgp|png)$/,
+                use: {
+                    loader: 'file-loader',
+                    options: {
+                        name: '[path][name].[hash].[ext]'
+                    }
+                }
             }
         ]
     }
