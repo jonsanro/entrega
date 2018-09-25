@@ -28,15 +28,18 @@ module.exports = {
     module: {
 
         rules: [{
-            test: /\.js$/,
-            use: "babel-loader",
-            exclude: path.join(__dirname, 'node_modules')
-        }]
-    },
-    module: {
-        rules: [{
-            test: /\.css$/,
-            use: ['style-loader', 'css-loader']
-        }]
+                test: /\.js$/,
+                use: "babel-loader",
+                exclude: path.join(__dirname, 'node_modules')
+            },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader']
+            },
+            {
+                test: /\.scss$/,
+                use: ['style-loader', 'css-loader', 'sass-loader']
+            }
+        ]
     }
 };

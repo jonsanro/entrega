@@ -1,5 +1,6 @@
-import './index.css';
-import { makeHeader } from './header.js';
+import './index.scss';
+import { makeHeader } from './components/header/header-component';
+
 document.addEventListener('DOMContentLoaded', () => {
-    document.body.appendChild(makeHeader());
+    document.body.appendChild(makeHeader({ title: 'Keeping Playing' }));
 });
