@@ -13,7 +13,10 @@ module.exports = {
     devServer: {
         open: true,
         overlay: true,
-        port: 3000
+        port: 3000,
+        hot: true,
+        contentBase: path.join(__dirname, 'src'),
+        watchContentBase: true
     },
     plugins: [new HtmlWebpackPlugin({
         title: "Poker",
@@ -21,5 +24,19 @@ module.exports = {
         minify: {
             collapseWhitespace: true
         }
-    })]
+    })],
+    module: {
+
+        rules: [{
+            test: /\.js$/,
+            use: "babel-loader",
+            exclude: path.join(__dirname, 'node_modules')
+        }]
+    },
+    module: {
+        rules: [{
+            test: /\.css$/,
+            use: ['style-loader', 'css-loader']
+        }]
+    }
 };
