@@ -1,6 +1,13 @@
 header {
     background-color: blue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     .title {
         color: white;
+    }
+    .logo {
+        padding-left: 5px;
+        height: 40px;
     }
 }

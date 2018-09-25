@@ -38,14 +38,19 @@ var commonConfig = {
                 test: /\.scss$/,
                 use: ['style-loader', 'css-loader', 'sass-loader']
             },
+
             {
-                test: /\.(jgp|png)$/,
-                use: {
-                    loader: 'file-loader',
-                    options: {
-                        name: '[path][name].[hash].[ext]'
-                    }
-                }
+                test: /\.(gif|png|jpe?g|svg)$/i,
+                use: [
+                    'file-loader',
+                    {
+                        loader: 'image-webpack-loader',
+                        options: {
+                            bypassOrnDebug: true, // webpack@1.x
+                            disable: true, // webpack@2.x and newe
+                        },
+                    },
+                ],
             }
         ]
     }
