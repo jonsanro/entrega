@@ -2,7 +2,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 var merge = require('webpack-merge');
-const webpack = require('webpack');
+var webpack = require('webpack');
+var MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 var commonConfig = {
     entry: path.join(__dirname, 'src', 'index'),
@@ -21,7 +22,10 @@ var commonConfig = {
                 collapseWhitespace: true
             }
         }),
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        new MiniCssExtractPlugin({
+            filename: '[name].[hash].css'
+        })
     ],
     module: {
 
@@ -36,7 +40,7 @@ var commonConfig = {
             },
             {
                 test: /\.scss$/,
-                use: ['style-loader', 'css-loader', 'sass-loader']
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
             },
 
             {
@@ -53,6 +57,17 @@ var commonConfig = {
                 ],
             }
         ]
+    },
+    resolve: {
+        alias: {
+            components: path.resolve(__dirname, 'src', 'components'),
+            assets: path.resolve(__dirname, 'src', 'assets'),
+            styles: path.resolve(__dirname, 'src', 'styles'),
+            utils: path.resolve(__dirname, 'src', 'utils'),
+            data: path.resolve(__dirname, 'src', 'data'),
+            services: path.resolve(__dirname, 'src', 'services'),
+            pages: path.resolve(__dirname, 'src', 'pages')
+        }
     }
 };
 
