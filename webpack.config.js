@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 var merge = require('webpack-merge');
 var webpack = require('webpack');
 var MiniCssExtractPlugin = require('mini-css-extract-plugin');
+var CleanWebpackPlugin = require('clean-webpack-plugin');
 
 var commonConfig = {
     entry: path.join(__dirname, 'src', 'index'),
@@ -84,7 +85,22 @@ var devConfig = {
 };
 
 var prodConfig = {
-
+    plugins: [
+        new MiniCssExtractPlugin({
+            filename: '[name].[hash].css'
+        }),
+        new CleanWebpackPlugin(['dist']),
+    ],
+    module: {
+        rules: [{
+            test: /\.scss$/,
+            use: [
+                MiniCssExtractPlugin.loader,
+                'css-loader',
+                'sass-loader'
+            ]
+        }, ]
+    },
 };
 
 
