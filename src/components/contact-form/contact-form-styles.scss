@@ -1,30 +1,9 @@
-@import '~styles/settings';
-@import '~styles/utils';
-
-.song {
-  margin: $gutter-padding / 2;
-
-  .song-image {
-    width: 180px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 10px;
-  }
-  .song-title {
-    margin-top: 5px;
-    margin-bottom: 0;
-    color: $primary-color;
-  }
-
-  .song-author {
-    margin-top: 2px;
-    text-transform: uppercase;
-    @include fontSize($font-size);
-    color: $gray;
-  }
+@import '~styles/layout';
+.contact-form-wrapper {
+  flex-direction: column;
 }
 
-#song-notice {
+#notice {
   display: block;
   width: 100%;
   text-transform: uppercase;
@@ -32,7 +11,7 @@
   padding: $gutter-padding;
 }
 
-#song-form {
+#contact-form {
   width: 100%;
   margin: 0 $gutter-padding / 2;
 
@@ -42,10 +21,10 @@
   display: flex;
   flex-wrap: wrap;
 
-  .song-form-field {
+  .contact-form-field {
     padding: $gutter-padding / 2 0;
     width: 100%;
-    &:not(.song-textarea) {
+    &:not(.contact-textarea) {
       @include for-tablet-landscape {
         width: 33.3333%;
         padding-right: $gutter-padding;
@@ -72,7 +51,7 @@
       }
 
       &.focus {
-        border-color: blue;
+        border-color: $blue;
       }
     }
 
@@ -86,7 +65,7 @@
     }
   }
 
-  #song-form-submit {
+  #contact-form-submit {
     display: block;
     width: 100%;
     background-color: $primary-color;

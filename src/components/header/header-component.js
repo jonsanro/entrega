@@ -1,15 +1,34 @@
-import './header-styles.scss';
-import pokerImagen from 'assets/logo_coachem.png';
 
-export const makeHeader = ({ title }) => {
-    const header = document.createElement('header');
-    header.innerHTML = `<div class="header">
-    <h1 class = "title">${title}</h1>
-    <img class="logo" src='${pokerImagen}'>
-    </div>`;
-    return header;
-}
+const removeActiveClass = () => {
+  const activeElement = document.getElementsByClassName('menu-active')[0];
+  if (activeElement) activeElement.classList.remove('menu-active');
+};
+
+const addActiveClass = (active) => {
+  const newActiveElement = document.getElementById(active);
+  if (newActiveElement) newActiveElement.classList.add('menu-active');
+};
+
+const handleHamburgerClick = () => {
+  const header = document.getElementsByTagName('header')[0];
+  const hamburgerLink = document.getElementById('hamburger-icon');
+  hamburgerLink.addEventListener('click', () => {
+    header.classList.toggle('menu-open');
+  });
+};
+
+const updateTitle = (title) => {
+  const titleElement = document.getElementById('title');
+  titleElement.innerHTML = title;
+};
+
+export const updateHeader = ({ title, active }) => {
+  updateTitle(title);
+  handleHamburgerClick();
+  removeActiveClass();
+  addActiveClass(active);
+};
 
 export default {
-    makeHeader
-}
+  updateHeader
+};

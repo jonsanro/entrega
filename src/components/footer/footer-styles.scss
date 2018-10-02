@@ -1,12 +1,23 @@
-        @import '~styles/settings.scss';
-        footer {
-            position: fixed;
-            background-color: $white;
-            bottom: 0;
-            width: 100%;
-            padding: 20px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: $box-shadow-default;
-        }
+@import '~styles/settings';
+
+footer {
+  height: $footer-height;
+  box-sizing: border-box;
+  position: fixed;
+  background-color: $white;
+  bottom: 0;
+  width: 100%;
+  padding: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: $box-shadow-default;
+
+}
+.create-button {
+  margin-left: 5px;
+  background-color: transparent;
+  border: solid 2px $gray;
+  @include fontSize($font-size-xl);
+  color: $primary-color;
+}

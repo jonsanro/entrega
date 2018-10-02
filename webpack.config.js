@@ -1,49 +1,65 @@
 /* eslint-disable */
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-var merge = require('webpack-merge');
 var webpack = require('webpack');
+var path = require('path');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var merge = require('webpack-merge');
 var MiniCssExtractPlugin = require('mini-css-extract-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
+var CriticalPlugin = require('webpack-plugin-critical').CriticalPlugin;
+var Dotenv = require('dotenv-webpack');
+var OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
+
+var page = function({ title, template, chunks, filename }) {
+    return new HtmlWebpackPlugin({
+        title: title,
+        template: template,
+        chunks: chunks,
+        minify: {
+            collapseWhitespace: true
+        },
+        filename: filename
+    })
+}
 
 var commonConfig = {
-    entry: path.join(__dirname, 'src', 'index'),
+    entry: {
+        songs: ['@babel/polyfill', 'whatwg-fetch', path.join(__dirname, 'src', 'pages', 'songs', 'index')],
+        contact: ['@babel/polyfill', 'whatwg-fetch', path.join(__dirname, 'src', 'pages', 'contact', 'index')],
+        song: ['@babel/polyfill', 'whatwg-fetch', path.join(__dirname, 'src', 'pages', 'song', 'index')]
+    },
     output: {
-
-        filename: 'bundle[hash].js',
-
+        filename: '[name][hash].js',
         path: path.resolve(__dirname, 'dist')
     },
-
-
-    plugins: [new HtmlWebpackPlugin({
-            title: "Poker",
-            template: "src/index.html",
-            minify: {
-                collapseWhitespace: true
-            }
+    plugins: [
+        new Dotenv(),
+        page({
+            title: 'Play',
+            template: path.join(__dirname, 'src', 'pages', 'songs', 'index.html'),
+            chunks: ['songs'],
+            filename: path.resolve(__dirname, 'dist', 'index.html')
         }),
-        new webpack.HotModuleReplacementPlugin(),
-        new MiniCssExtractPlugin({
-            filename: '[name].[hash].css'
+        page({
+            title: 'Contact',
+            template: path.join(__dirname, 'src', 'pages', 'contact', 'index.html'),
+            chunks: ['contact'],
+            filename: path.resolve(__dirname, 'dist', 'contact', 'index.html')
+        }),
+        page({
+            title: 'Song',
+            template: path.join(__dirname, 'src', 'pages', 'song', 'index.html'),
+            chunks: ['song'],
+            filename: path.resolve(__dirname, 'dist', 'song', 'index.html')
         })
     ],
     module: {
-
         rules: [{
-                test: /\.js$/,
-                use: "babel-loader",
-                exclude: path.join(__dirname, 'node_modules')
+                test: /\.(js)$/,
+                exclude: /node_modules/,
+                use: "babel-loader"
             },
-            {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader']
-            },
-            {
-                test: /\.scss$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
-            },
-
             {
                 test: /\.(gif|png|jpe?g|svg)$/i,
                 use: [
@@ -51,11 +67,14 @@ var commonConfig = {
                     {
                         loader: 'image-webpack-loader',
                         options: {
-                            bypassOrnDebug: true, // webpack@1.x
-                            disable: true, // webpack@2.x and newe
+                            name: "assets/[name].[hash].[ext]",
                         },
                     },
                 ],
+            },
+            {
+                test: /\.(html|ejs)$/,
+                use: ['html-loader', 'ejs-html-loader']
             }
         ]
     },
@@ -69,27 +88,51 @@ var commonConfig = {
             services: path.resolve(__dirname, 'src', 'services'),
             pages: path.resolve(__dirname, 'src', 'pages')
         }
-    }
+    },
+    devtool: 'source-map'
 };
 
-
 var devConfig = {
+    module: {
+        rules: [{
+            test: /\.scss$/,
+            use: [
+                'style-loader',
+                'css-loader',
+                'sass-loader'
+            ]
+        }, ]
+    },
     devServer: {
-        open: true,
         overlay: true,
-        port: 3000,
-        hot: true,
-        contentBase: path.join(__dirname, 'src'),
-        watchContentBase: true
-    }
+        port: 8000
+    },
 };
 
 var prodConfig = {
+    optimization: {
+        minimizer: [
+            new OptimizeCSSAssetsPlugin({
+                cssProcessorOptions: { map: { inline: false } }
+            }),
+            new UglifyJsPlugin({
+                cache: true,
+                parallel: true,
+                sourceMap: true // set to true if you want JS source maps
+            }),
+        ]
+    },
     plugins: [
         new MiniCssExtractPlugin({
             filename: '[name].[hash].css'
         }),
         new CleanWebpackPlugin(['dist']),
+        new CriticalPlugin({
+            src: path.join(__dirname, 'src', 'pages', 'songs', 'index.html'),
+            inline: true,
+            minify: true,
+            dest: path.join(__dirname, 'dist', 'index.html')
+        })
     ],
     module: {
         rules: [{
@@ -102,7 +145,6 @@ var prodConfig = {
         }, ]
     },
 };
-
 
 module.exports = (env, argv) =>
     argv.mode === 'development' ?

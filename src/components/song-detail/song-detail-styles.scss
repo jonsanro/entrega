@@ -1,0 +1,48 @@
+@import '~styles/settings';
+@import '~styles/utils';
+
+.song-detail {
+  margin-left: $gutter-padding;
+  width: 70%;
+
+  .song-image {
+    max-width: 80%;
+    border-radius: 10px;
+  }
+  .title-container {
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+
+    .song-title {
+      @include fontSize($font-size-xl);
+      margin-top: 5px;
+      margin-bottom: 0;
+      color: $primary-color;
+    }
+
+    .like-button {
+      outline-width: 0;
+      @include fontSize($font-size-xxxl);
+      background-color: transparent;
+      color: $red;
+      border: none;
+    }
+  }
+  .song-author {
+    margin-top: 2px;
+    text-transform: uppercase;
+    @include fontSize($font-size-xl);
+    color: $gray;
+  }
+
+  .back {
+    color: $link-color;
+    text-decoration: none;
+    @include fontSize($font-size-xl);
+  }
+
+  .song-detail-description {
+    margin: $gutter-padding 0;
+  }
+}

@@ -6,8 +6,10 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "webpack --mode=production",
+        "deploy": "webpack --mode=production && cp CNAME dist/CNAME && surge dist",
         "eslint": "eslint",
-        "start": "webpack-dev-server --mode=development --hot --inline"
+        "start": "webpack-dev-server --mode=development --hot --inline",
+        "server": "json-server --watch --port=8000 ./src/data/db.json"
     },
     "repository": {
         "type": "git",
@@ -22,7 +24,7 @@
     "homepage": "https://github.com/jonsanro/entrega#readme",
     "devDependencies": {
         "babel-core": "^6.26.3",
-        "babel-loader": "^8.0.2",
+        "babel-loader": "^8.0.4",
         "babel-preset-env": "^1.7.0",
         "clean-webpack-plugin": "^0.1.19",
         "css-loader": "^1.0.0",
@@ -34,13 +36,30 @@
         "sass-loader": "^7.1.0",
         "style-loader": "^0.23.0",
         "url-loader": "^1.1.1",
-        "webpack": "^4.19.1",
+        "webpack": "^4.20.2",
         "webpack-cli": "^3.1.1",
         "webpack-dev-server": "^3.1.9",
         "webpack-merge": "^4.1.4"
     },
     "dependencies": {
         "@babel/core": "^7.1.0",
-        "@babel/preset-env": "^7.1.0"
+        "@babel/polyfill": "^7.0.0",
+        "@babel/preset-env": "^7.1.0",
+        "babel-polyfill": "^6.26.0",
+        "cross-env": "^5.2.0",
+        "cross-spawn": "^6.0.5",
+        "dotenv-webpack": "^1.5.7",
+        "ejs": "^2.6.1",
+        "ejs-html-loader": "^3.1.0",
+        "eslint": "^5.6.0",
+        "eslint-config-airbnb-base": "^13.1.0",
+        "eslint-plugin-import": "^2.14.0",
+        "html-loader": "^0.5.5",
+        "optimize-css-assets-webpack-plugin": "^5.0.1",
+        "pubsub-js": "^1.7.0",
+        "query-string": "^6.1.0",
+        "uglifyjs-webpack-plugin": "^2.0.1",
+        "webpack-plugin-critical": "^1.0.0",
+        "whatwg-fetch": "^3.0.0"
     }
 }
